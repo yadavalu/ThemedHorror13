@@ -1,4 +1,5 @@
 import pygame
+import time
 
 from background import get_background
 from spritesheet import SpriteSheet
@@ -34,7 +35,13 @@ ghost_data = {
 
 ghost = SpriteSheet(screen, 100, 100, pygame.image.load("ghost.png"), ghost_data)
 
+
+clock = pygame.Clock()
+t0 = time.time()
+
 while running:
+    clock.tick(24)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -44,7 +51,14 @@ while running:
     for tile in background:
         screen.blit(bg_image, tile)
 
-    ghost.animate("walk_forward")
+    t1 = time.time()
+
+    if t1 - t0 > 0.1:
+        ghost.animate("walk_forward")
+        t0 = time.time()
+
     ghost.render()
 
     pygame.display.update()
+
+pygame.quit()
