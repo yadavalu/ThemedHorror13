@@ -36,7 +36,7 @@ class SpriteSheet:
                 self.index = 0
                 self.curr_action = action
 
-        if self.index == self.data[action]["n"] - 1:
+        if self.index == self.data[action][0] - 1:
             self.index = 0
 
-        self.get_size(self.index*self.data["dimensions"][0], self.data[action]["index"]*self.data["dimensions"][0], *self.data["dimensions"])
+        self.get_size(self.index*self.data["dimensions"][0], self.data[action][1]*self.data["dimensions"][1], *self.data["dimensions"])
