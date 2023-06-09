@@ -28,7 +28,6 @@ ghost_data = {
 
 
 sprite_data = {
-    "idle": [1, 0],
     "forward": [8, 0],
     "right": [8, 1],
     "left": [8, 2],
@@ -95,8 +94,7 @@ while running:
         elif a:
             sprite.animate("away")
         else:
-            sprite.animate("idle")
-
+            sprite.single(0, 0)
 
         t0 = time.time()
 

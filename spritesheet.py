@@ -26,6 +26,9 @@ class SpriteSheet:
     def handle_event(self):
         pass
 
+    def single(self, x, y):
+        self.get_size(x, y, *self.data["dimensions"])
+
     def animate(self, action):
         if self.curr_action is None:
             self.index = 0
