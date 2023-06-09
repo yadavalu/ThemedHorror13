@@ -37,8 +37,8 @@ sprite_data = {
 }
 
 
-ghost = SpriteSheet(screen, 100, 100, pygame.image.load("ghost.png"), ghost_data)
-sprite = SpriteSheet(screen, 200, 100, pygame.image.load("sprite.png"), sprite_data)
+ghost = SpriteSheet(screen, 100, 100, pygame.image.load("ghost.png"), ghost_data, tilemap)
+sprite = SpriteSheet(screen, 200, 100, pygame.image.load("sprite.png"), sprite_data, tilemap)
 f, r, l, a = 0, 0, 0, 0
 no_animation = 0
 
@@ -67,14 +67,7 @@ while running:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 f, r, l, a = 0, 0, 0, 0
 
-    if f:
-        sprite.y += 3
-    if r:
-        sprite.x -= 3
-    if l:
-        sprite.x += 3
-    if a:
-        sprite.y -= 3
+    sprite.move(f, r, l, a)
 
     screen.fill((0, 0, 0))
 

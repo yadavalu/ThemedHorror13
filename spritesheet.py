@@ -2,9 +2,10 @@ import pygame
 
 
 class SpriteSheet:
-    def __init__(self, screen, x, y, img, data):
+    def __init__(self, screen, x, y, img, data, tilemap):
         self.screen = screen
 
+        self.tilemap = tilemap
         self.x = x
         self.y = y
         self.img = img
@@ -19,6 +20,18 @@ class SpriteSheet:
         self.render_img = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
         self.render_img.blit(self.img, (0, 0), (x, y, width, height))
 
+    def move(self, f, r, l, a):
+        pos = (self.x // 64, self.y // 64)
+        if self.tilemap[pos[0]][pos[1]] == 0:
+            if f:
+                self.y += 3
+            if r:
+                self.x -= 3
+            if l:
+                self.x += 3
+            if a:
+                self.y -= 3
+        
     def render(self):
         #self.screen.blit(self.render_img, (self.x, self.y))
         self.screen.blit(pygame.transform.scale(self.render_img, self.data["scale"]), (self.x, self.y))
