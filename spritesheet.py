@@ -20,7 +20,8 @@ class SpriteSheet:
         self.render_img.blit(self.img, (0, 0), (x, y, width, height))
 
     def render(self):
-        self.screen.blit(self.render_img, (self.x, self.y))
+        #self.screen.blit(self.render_img, (self.x, self.y))
+        self.screen.blit(pygame.transform.scale(self.render_img, self.data["scale"]), (self.x, self.y))
 
     def handle_event(self):
         pass

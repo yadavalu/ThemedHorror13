@@ -28,6 +28,7 @@ ghost_data = {
 
 
 sprite_data = {
+    "idle": [1, 0],
     "forward": [8, 0],
     "right": [8, 1],
     "left": [8, 2],
@@ -40,6 +41,7 @@ sprite_data = {
 ghost = SpriteSheet(screen, 100, 100, pygame.image.load("ghost.png"), ghost_data)
 sprite = SpriteSheet(screen, 200, 100, pygame.image.load("sprite.png"), sprite_data)
 f, r, l, a = 0, 0, 0, 0
+no_animation = 0
 
 sprite.animate("forward")
 pygame.display.set_icon(pygame.image.load("icon.png"))
@@ -67,13 +69,13 @@ while running:
                 f, r, l, a = 0, 0, 0, 0
 
     if f:
-        sprite.y += 1
+        sprite.y += 3
     if r:
-        sprite.x -= 1
+        sprite.x -= 3
     if l:
-        sprite.x += 1
+        sprite.x += 3
     if a:
-        sprite.y -= 1
+        sprite.y -= 3
 
     screen.fill((0, 0, 0))
 
@@ -82,7 +84,7 @@ while running:
 
     t1 = time.time()
 
-    if t1 - t0 > 0.1:
+    if t1 - t0 > 0.07:
         ghost.animate("left")
         if f:
             sprite.animate("forward")
@@ -92,6 +94,8 @@ while running:
             sprite.animate("left")
         elif a:
             sprite.animate("away")
+        else:
+            sprite.animate("idle")
 
 
         t0 = time.time()
