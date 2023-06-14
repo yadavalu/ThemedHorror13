@@ -24,8 +24,8 @@ class SpriteSheet:
         self.render_img = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
         self.render_img.blit(self.img, (0, 0), (x, y, width, height))
 
-    def move(self, f, r, l, a):
-        self.vel = np.abs(int(5*np.sin(2*self.clock.get_time()) + 1))
+    def move(self, f, r, l, a, xoffset, yoffset):
+        self.vel = 2  # np.abs(int(5*np.sin(2*self.clock.get_time()) + 1))
         x = self.x
         y = self.y
 
@@ -40,7 +40,7 @@ class SpriteSheet:
 
         for i in self.tile_rects:
             if i.x != -1:
-                if i.colliderect(pygame.Rect(x, y, *self.data["scale"])):
+                if i.colliderect(pygame.Rect(x - xoffset/2, y - yoffset/2, self.data["scale"][0] + xoffset, self.data["scale"][1] + yoffset)):
                     if not self.collision:
                         self.collision = True
                     return

@@ -50,12 +50,12 @@ no_animation = 0
 sprite.animate("forward")
 pygame.display.set_icon(pygame.image.load("icon.png"))
 
-wheel = Wheel(screen, "icon.png") # TODO: get wheel images
+wheel = Wheel(screen, "icon.png")  # TODO: get wheel images
 
 t0 = time.time()
 
 while running:
-    clock.tick(24)
+    clock.tick(60)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -75,7 +75,7 @@ while running:
             if event.key == pygame.K_SPACE:
                 wheel.turn()
 
-    sprite.move(f, r, l, a)
+    sprite.move(f, r, l, a, -20, -10)
 
     screen.fill((0, 0, 0))
 

@@ -2,7 +2,7 @@ import pygame
 import random
 
 class Wheel:
-    def __init__(self, screen, wheel_img, chooser):
+    def __init__(self, screen, wheel_img):
         self.screen = screen
         self.wheel_img = pygame.image.load(wheel_img)
         self.wheel_pos = (50, 50)
