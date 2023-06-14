@@ -5,6 +5,7 @@ import random
 import tilemaps
 from background import get_background
 from spritesheet import SpriteSheet
+from wheel import Wheel
 
 pygame.init()
 (w, h) = (1000, 900)
@@ -49,6 +50,8 @@ no_animation = 0
 sprite.animate("forward")
 pygame.display.set_icon(pygame.image.load("icon.png"))
 
+wheel = Wheel(screen, "icon.png") # TODO: get wheel images
+
 t0 = time.time()
 
 while running:
@@ -69,6 +72,8 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 f, r, l, a = 0, 0, 0, 0
+            if event.key == pygame.K_SPACE:
+                wheel.turn()
 
     sprite.move(f, r, l, a)
 
@@ -96,6 +101,7 @@ while running:
 
     ghost.render()
     sprite.render()
+    wheel.render()
 
     pygame.display.update()
 
