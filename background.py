@@ -14,6 +14,8 @@ def get_background(tilemap):
                 if tilemap[i - 1][j - 1] == 1:
                     pos = (i * width, j * height)
                     tiles.append(pos)
-            except: print(i, j)
+                else:
+                    tiles.append((-1, -1))
+            except: pass
 
     return tiles, image

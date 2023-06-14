@@ -2,10 +2,11 @@ import pygame
 import numpy as np
 
 class SpriteSheet:
-    def __init__(self, screen, x, y, clock: pygame.time.Clock, img, data, tilemap):
+    def __init__(self, screen, x, y, clock: pygame.time.Clock, img, data, tile_rects):
         self.screen = screen
 
-        self.tilemap = tilemap
+        self.tile_rects = tile_rects
+
         self.x = x
         self.y = y
         self.clock = clock
@@ -37,17 +38,17 @@ class SpriteSheet:
         if a:
             y -= self.vel
 
-        if self.tilemap[(x + 32) // 64 - 1][y // 64] == 1:
-            if not self.collision:
-                self.collision = True
-            else:
-                return
-        else:
-            self.x = x
-            self.y = y
+        for i in self.tile_rects:
+            if i.x != -1:
+                if i.colliderect(pygame.Rect(x, y, *self.data["scale"])):
+                    if not self.collision:
+                        self.collision = True
+                    return
 
+        self.x = x
+        self.y = y
+        self.collision = False
 
-        
     def render(self):
         #self.screen.blit(self.render_img, (self.x, self.y))
         self.screen.blit(pygame.transform.scale(self.render_img, self.data["scale"]), (self.x, self.y))

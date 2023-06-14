@@ -16,7 +16,10 @@ running = True
 tilemap = random.choice(tilemaps.tilemaps)
 background, bg_image = get_background(tilemap)
 
-# TODO: Scaling
+rects = []
+for tile in background:
+    rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
+
 ghost_data = {
     "forward": [6, 0],
     "left": [6, 1],
@@ -38,8 +41,8 @@ sprite_data = {
 
 
 clock = pygame.Clock()
-ghost = SpriteSheet(screen, 100, 100, clock, pygame.image.load("ghost.png"), ghost_data, tilemap)
-sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, tilemap)
+ghost = SpriteSheet(screen, 100, 100, clock, pygame.image.load("ghost.png"), ghost_data, rects)
+sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects)
 f, r, l, a = 0, 0, 0, 0
 no_animation = 0
 
