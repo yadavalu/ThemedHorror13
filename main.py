@@ -38,7 +38,7 @@ sprite_data = {
 
 
 ghost = SpriteSheet(screen, 100, 100, 3, pygame.image.load("ghost.png"), ghost_data, tilemap)
-sprite = SpriteSheet(screen, 200, 100, 3, pygame.image.load("sprite.png"), sprite_data, tilemap)
+sprite = SpriteSheet(screen, 64, 64, 3, pygame.image.load("sprite.png"), sprite_data, tilemap)
 f, r, l, a = 0, 0, 0, 0
 no_animation = 0
 
