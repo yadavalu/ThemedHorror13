@@ -1,14 +1,14 @@
 import pygame
-
+import numpy as np
 
 class SpriteSheet:
-    def __init__(self, screen, x, y, vel, img, data, tilemap):
+    def __init__(self, screen, x, y, clock: pygame.time.Clock, img, data, tilemap):
         self.screen = screen
 
         self.tilemap = tilemap
         self.x = x
         self.y = y
-        self.vel = vel
+        self.clock = clock
         self.img = img
         self.render_img = pygame.Surface((0, 0))
 
@@ -24,6 +24,7 @@ class SpriteSheet:
         self.render_img.blit(self.img, (0, 0), (x, y, width, height))
 
     def move(self, f, r, l, a):
+        self.vel = np.abs(int(5*np.sin(2*self.clock.get_time()) + 1))
         x = self.x
         y = self.y
 

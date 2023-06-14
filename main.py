@@ -37,15 +37,15 @@ sprite_data = {
 }
 
 
-ghost = SpriteSheet(screen, 100, 100, 3, pygame.image.load("ghost.png"), ghost_data, tilemap)
-sprite = SpriteSheet(screen, 64, 64, 3, pygame.image.load("sprite.png"), sprite_data, tilemap)
+clock = pygame.Clock()
+ghost = SpriteSheet(screen, 100, 100, clock, pygame.image.load("ghost.png"), ghost_data, tilemap)
+sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, tilemap)
 f, r, l, a = 0, 0, 0, 0
 no_animation = 0
 
 sprite.animate("forward")
 pygame.display.set_icon(pygame.image.load("icon.png"))
 
-clock = pygame.Clock()
 t0 = time.time()
 
 while running:
