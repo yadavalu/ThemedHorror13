@@ -2,17 +2,20 @@ import pygame
 
 
 class SpriteSheet:
-    def __init__(self, screen, x, y, img, data, tilemap):
+    def __init__(self, screen, x, y, vel, img, data, tilemap):
         self.screen = screen
 
         self.tilemap = tilemap
         self.x = x
         self.y = y
+        self.vel = vel
         self.img = img
         self.render_img = pygame.Surface((0, 0))
 
         self.data = data
         self.index = 0
+
+        self.collision = False
 
         self.curr_action = None
 
@@ -21,16 +24,28 @@ class SpriteSheet:
         self.render_img.blit(self.img, (0, 0), (x, y, width, height))
 
     def move(self, f, r, l, a):
-        pos = (self.x // 64, self.y // 64)
-        if self.tilemap[pos[0]][pos[1]] == 0:
-            if f:
-                self.y += 3
-            if r:
-                self.x -= 3
-            if l:
-                self.x += 3
-            if a:
-                self.y -= 3
+        x = self.x
+        y = self.y
+
+        if f:
+            y += self.vel
+        if r:
+            x -= self.vel
+        if l:
+            x += self.vel
+        if a:
+            y -= self.vel
+
+        if self.tilemap[(x + 32) // 64 - 1][y // 64] == 1:
+            if not self.collision:
+                self.collision = True
+            else:
+                return
+        else:
+            self.x = x
+            self.y = y
+
+
         
     def render(self):
         #self.screen.blit(self.render_img, (self.x, self.y))
