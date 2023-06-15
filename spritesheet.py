@@ -53,8 +53,8 @@ class SpriteSheet:
                     self.rect = pygame.Rect(self.x + self.data["offset"][0], self.y + self.data["offset"][1],
                                             self.data["scale"][0] - 2 * self.data["offset"][0],
                                             self.data["scale"][1] - self.data["offset"][1])
-                    return
-
+                    break
+                
         if x != self.x or y != self.y:
             vel = [0, 0]
             if dir == 1:
