@@ -94,7 +94,7 @@ while running:
 
     if t1 - t0_1 > 1:
         # Low weighted directions
-        rand_legal = [3, 4]
+        rand_legal = [1, 2, 3, 4]
         # High weighted directions
         if ghost.x - sprite.x > 0:
             rand_legal.append(2)
