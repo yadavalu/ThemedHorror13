@@ -1,6 +1,7 @@
 import pygame
 import random
-import pprint
+import pygame
+import numpy as np
 
 class Coin:
     def __init__(self, screen, tilemap, coin_img):
@@ -10,13 +11,14 @@ class Coin:
         self.pos = self.init_pos()
     
     def init_pos(self):
-        randx = random.randint(0, len(self.tilemap) - 1)
-        randy = random.randint(0, len(self.tilemap[0]) - 1)
+        randx = random.choice(range(pygame.display.get_surface().get_size()[0] // 64 + 1))
+        randy = random.choice(range(pygame.display.get_surface().get_size()[1] // 64 + 1))
         print(randx, randy)
-        pprint.pprint(self.tilemap)
-        if self.tilemap[randx][randy] == 1:
-            self.init_pos()
-        return ((randx - 1) * 64, (randy - 1) * 64)
+        try:
+            if self.tilemap[randx - 1][randy - 1] == 1:
+                self.init_pos()
+        except: self.init_pos()
+        return ((randx) * 64, (randy) * 64)
 
     def render(self):
         self.screen.blit(self.img, self.pos)
