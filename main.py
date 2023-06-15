@@ -93,15 +93,25 @@ while running:
     t1 = time.time()
 
     if t1 - t0_1 > 1:
-        rand_legal = []
+        # Low weighted directions
+        rand_legal = [3, 4]
+        # High weighted directions
         if ghost.x - sprite.x > 0:
             rand_legal.append(2)
+            rand_legal.append(2)
+            rand_legal.append(2)
         elif ghost.x - sprite.x < 0:
+            rand_legal.append(1)
+            rand_legal.append(1)
             rand_legal.append(1)
 
         if ghost.y - sprite.y > 0:
             rand_legal.append(4)
+            rand_legal.append(4)
+            rand_legal.append(4)
         elif ghost.y - sprite.y < 0:
+            rand_legal.append(3)
+            rand_legal.append(3)
             rand_legal.append(3)
 
         try:
@@ -118,13 +128,9 @@ while running:
 
     if not game_over:
         sprite.move(dir, dt)
-
-        while True:
-            ghost.move(dir2, dt)
-            if not ghost.collision:
-                break
-            else:
-                dir2 = random.choice(rand_legal)
+        ghost.move(dir2, dt)
+        if ghost.collision:
+            t0_1 = 0
 
     screen.fill((0, 0, 0))
 

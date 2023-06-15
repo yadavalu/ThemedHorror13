@@ -71,7 +71,7 @@ class SpriteSheet:
             elif dir == 4:
                 vel = [-1, random.randint(0, 20) / 10]
 
-            for i in range(3): self.particles.append([[self.x + self.data["scale"][0]/2, self.y + self.data["scale"][1]], vel, random.randint(4, 6)])
+            for i in range(3): self.particles.append([[self.x + self.data["scale"][0]/2, self.y + self.data["scale"][1]], vel, random.randint(2, 4)])
 
         self.x = x
         self.y = y
