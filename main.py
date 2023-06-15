@@ -6,6 +6,7 @@ import tilemaps
 from background import get_background
 from spritesheet import SpriteSheet
 from wheel import Wheel
+from coin import Coin
 
 pygame.init()
 (w, h) = (1000, 900)
@@ -54,6 +55,7 @@ sprite.animate("forward")
 pygame.display.set_icon(pygame.image.load("icon.png"))
 
 wheel = Wheel(screen, "chooser.png")
+coin = Coin(screen, tilemap, "coin.png")
 
 t0 = time.time()
 t0_1 = time.time()
@@ -128,6 +130,7 @@ while running:
     ghost.render()
     sprite.render()
     wheel.render()
+    coin.render()
 
     pygame.display.update()
 
