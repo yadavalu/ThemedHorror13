@@ -27,18 +27,18 @@ class SpriteSheet:
         self.render_img = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
         self.render_img.blit(self.img, (0, 0), (x, y, width, height))
 
-    def move(self, dir):
+    def move(self, dir, dt):
         x = self.x
         y = self.y
 
         if dir == 3:
-            y += self.vel
+            y += self.vel * dt * 0.08
         if dir == 2:
-            x -= self.vel
+            x -= self.vel * dt * 0.08
         if dir == 1:
-            x += self.vel
+            x += self.vel * dt * 0.08
         if dir == 4:
-            y -= self.vel
+            y -= self.vel * dt * 0.08
 
         self.rect.x = x + self.data["offset"][0]
         self.rect.y = y + self.data["offset"][1]
