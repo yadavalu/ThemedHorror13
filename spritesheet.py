@@ -1,8 +1,8 @@
 import pygame
-import numpy as np
+import random
 
 class SpriteSheet:
-    def __init__(self, screen, x, y, clock: pygame.time.Clock, img, data, tile_rects):
+    def __init__(self, screen, x, y, clock: pygame.time.Clock, img, data, tile_rects, part_colour):
         self.screen = screen
 
         self.tile_rects = tile_rects
@@ -21,6 +21,8 @@ class SpriteSheet:
         self.collision = False
         self.rect = pygame.Rect(self.x + self.data["offset"][0], self.y + self.data["offset"][1], self.data["scale"][0] - 2 * self.data["offset"][0], self.data["scale"][1] - self.data["offset"][1])
 
+        self.particles = []
+        self.part_colour = part_colour
         self.curr_action = None
 
     def get_size(self, x, y, width, height):
@@ -53,6 +55,9 @@ class SpriteSheet:
                                             self.data["scale"][1] - self.data["offset"][1])
                     return
 
+        if x != self.x or y != self.y:
+            for i in range(3): self.particles.append([[self.x + self.data["scale"][0]/2, self.y + self.data["scale"][1]], [random.randint(0, 20) / 10 - 1, -2], random.randint(4, 6)])
+
         self.x = x
         self.y = y
         self.collision = False
@@ -65,11 +70,19 @@ class SpriteSheet:
                     i.destroy = True
 
     def render(self):
-        #self.screen.blit(self.render_img, (self.x, self.y))
-        #xoffset = 10
-        #yoffset = 5
-        #pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(self.x + xoffset, self.y + yoffset, self.data["scale"][0] - 2 * xoffset, self.data["scale"][1] - yoffset))
         self.screen.blit(pygame.transform.scale(self.render_img, self.data["scale"]), (self.x, self.y))
+
+        to_remove = []
+        for particle in self.particles:
+            particle[0][0] += particle[1][0]
+            particle[0][1] += particle[1][1]
+            particle[2] -= 0.1
+            pygame.draw.circle(self.screen, self.part_colour, particle[0], particle[2])
+            if particle[2] <= 0:
+                to_remove.append(particle)
+
+        for i in to_remove:
+            self.particles.remove(i)
 
     def handle_event(self):
         pass
