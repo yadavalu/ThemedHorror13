@@ -10,11 +10,11 @@ class Coin:
         self.pos = self.init_pos()
 
     def init_pos(self):
-        randx = random.choice(range(pygame.display.get_surface().get_size()[0] // 64 + 1))
-        randy = random.choice(range(pygame.display.get_surface().get_size()[1] // 64 + 1))
+        randx = random.choice(range(pygame.display.get_surface().get_size()[0] // 64 - 1))
+        randy = random.choice(range(pygame.display.get_surface().get_size()[1] // 64 - 1))
         while self.tilemap[randx - 1][randy - 1] == 1:
-            randx = random.choice(range(pygame.display.get_surface().get_size()[0] // 64 + 1))
-            randy = random.choice(range(pygame.display.get_surface().get_size()[1] // 64 + 1))
+            randx = random.choice(range(pygame.display.get_surface().get_size()[0] // 64 - 1))
+            randy = random.choice(range(pygame.display.get_surface().get_size()[1] // 64 - 1))
         return (randx * 64, randy * 64)
 
     def render(self):

@@ -107,7 +107,9 @@ while running:
 
         t0_1 = time.time()
 
-    if ghost.x == sprite.x and ghost.y == sprite.y:
+    if ghost.rect.colliderect(sprite.rect):
+        ghost.x = sprite.x
+        ghost.y = sprite.y
         game_over = True
 
     if not game_over:
@@ -152,11 +154,14 @@ while running:
 
         t0 = time.time()
 
+    """
     t1 = time.time()
     if 3 < t1 - t0_2 <= 4:
         ghost.render()
     elif t1 - t0_2 > 4:
         t0_2 = time.time()
+    """
+    ghost.render()
     sprite.render()
     wheel.render()
     coin.render()

@@ -14,10 +14,12 @@ class SpriteSheet:
         self.img = img
         self.render_img = pygame.Surface((0, 0))
 
+
         self.data = data
         self.index = 0
 
         self.collision = False
+        self.rect = pygame.Rect(self.x + self.data["offset"][0], self.y + self.data["offset"][1], self.data["scale"][0] - 2 * self.data["offset"][0], self.data["scale"][1] - self.data["offset"][1])
 
         self.curr_action = None
 
@@ -38,16 +40,25 @@ class SpriteSheet:
         if dir == 4:
             y -= self.vel
 
+        self.rect.x = x + self.data["offset"][0]
+        self.rect.y = y + self.data["offset"][1]
+
         for i in self.tile_rects:
             if i.x != -1:
-                if i.colliderect(pygame.Rect(x + self.data["offset"][0], y + self.data["offset"][1], self.data["scale"][0] - 2 * self.data["offset"][0], self.data["scale"][1] - self.data["offset"][1])):
+                if i.colliderect(self.rect):
                     if not self.collision:
                         self.collision = True
+                    self.rect = pygame.Rect(self.x + self.data["offset"][0], self.y + self.data["offset"][1],
+                                            self.data["scale"][0] - 2 * self.data["offset"][0],
+                                            self.data["scale"][1] - self.data["offset"][1])
                     return
 
         self.x = x
         self.y = y
         self.collision = False
+
+        self.rect = pygame.Rect(self.x + self.data["offset"][0], self.y + self.data["offset"][1], self.data["scale"][0] - 2 * self.data["offset"][0], self.data["scale"][1] - self.data["offset"][1])
+
 
 
     def render(self):
