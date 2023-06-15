@@ -46,8 +46,8 @@ sprite_data = {
 
 
 clock = pygame.Clock()
-ghost = SpriteSheet(screen, 896, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects)
-sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects)
+ghost = SpriteSheet(screen, 896, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200))
+sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
 dir = 0
 dir2 = 1
 rand_legal = [1, 2, 3, 4]
@@ -158,11 +158,15 @@ while running:
 
         t0 = time.time()
 
-    t1 = time.time()
-    if 3 < t1 - t0_2 <= 4:
+    if not game_over:
+        t1 = time.time()
+        if 3 < t1 - t0_2 <= 4:
+            ghost.render()
+        elif t1 - t0_2 > 4:
+            t0_2 = time.time()
+    else:
         ghost.render()
-    elif t1 - t0_2 > 4:
-        t0_2 = time.time()
+
     sprite.render()
     wheel.render()
     for i in coin:
