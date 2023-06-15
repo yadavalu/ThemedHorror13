@@ -12,6 +12,7 @@ pygame.init()
 (w, h) = (1000, 900)
 screen = pygame.display.set_mode((w, h))
 pygame.display.set_caption("Horror")
+font = pygame.font.SysFont(None, 75)
 
 running = True
 
@@ -49,6 +50,7 @@ ghost = SpriteSheet(screen, 896, 64, clock, pygame.image.load("ghost.png"), ghos
 sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects)
 dir = 0
 dir2 = 1
+rand_legal = [1, 2, 3, 4]
 no_animation = 0
 
 sprite.animate("forward")
@@ -59,6 +61,9 @@ coin = Coin(screen, tilemap, "coin.png")
 
 t0 = time.time()
 t0_1 = time.time()
+t0_2 = time.time()
+
+game_over = False
 
 while running:
     clock.tick(60)
@@ -84,16 +89,36 @@ while running:
     t1 = time.time()
 
     if t1 - t0_1 > 1:
-        dir2 = random.randint(1, 4)
+        rand_legal = []
+        if ghost.x - sprite.x > 0:
+            rand_legal.append(2)
+        elif ghost.x - sprite.x < 0:
+            rand_legal.append(1)
+
+        if ghost.y - sprite.y > 0:
+            rand_legal.append(4)
+        elif ghost.y - sprite.y < 0:
+            rand_legal.append(3)
+
+        try:
+            dir2 = random.choice(rand_legal)
+        except IndexError:
+            game_over = True
+
         t0_1 = time.time()
 
-    sprite.move(dir)
-    while True:
-        ghost.move(dir2)
-        if not ghost.collision:
-            break
-        else:
-            dir2 = random.randint(1, 4)
+    if ghost.x == sprite.x and ghost.y == sprite.y:
+        game_over = True
+
+    if not game_over:
+        sprite.move(dir)
+
+        while True:
+            ghost.move(dir2)
+            if not ghost.collision:
+                break
+            else:
+                dir2 = random.choice(rand_legal)
 
     screen.fill((0, 0, 0))
 
@@ -127,10 +152,18 @@ while running:
 
         t0 = time.time()
 
-    ghost.render()
+    t1 = time.time()
+    if 3 < t1 - t0_2 <= 4:
+        ghost.render()
+    elif t1 - t0_2 > 4:
+        t0_2 = time.time()
     sprite.render()
     wheel.render()
     coin.render()
+
+    if game_over:
+        size = font.size("Game over!!!")
+        screen.blit(font.render("Game over!!!", True, (100, 0, 0)), (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
 
     pygame.display.update()
 
