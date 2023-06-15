@@ -57,7 +57,9 @@ sprite.animate("forward")
 pygame.display.set_icon(pygame.image.load("icon.png"))
 
 wheel = Wheel(screen, "chooser.png")
-coin = Coin(screen, tilemap, "coin.png")
+coin = []
+for i in range(5):
+    coin.append(Coin(screen, tilemap, "coin.png"))
 
 t0 = time.time()
 t0_1 = time.time()
@@ -80,6 +82,8 @@ while running:
                 dir = 4
             if event.key == pygame.K_DOWN:
                 dir = 3
+            if event.key == pygame.K_x:
+                sprite.collect(coin)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 dir = 0
@@ -161,7 +165,8 @@ while running:
         t0_2 = time.time()
     sprite.render()
     wheel.render()
-    coin.render()
+    for i in coin:
+        i.render()
 
     if game_over:
         size = font.size("Game over!!!")
