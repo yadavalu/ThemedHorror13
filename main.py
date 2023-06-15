@@ -154,14 +154,11 @@ while running:
 
         t0 = time.time()
 
-    """
     t1 = time.time()
     if 3 < t1 - t0_2 <= 4:
         ghost.render()
     elif t1 - t0_2 > 4:
         t0_2 = time.time()
-    """
-    ghost.render()
     sprite.render()
     wheel.render()
     coin.render()
