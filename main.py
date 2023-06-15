@@ -50,7 +50,7 @@ no_animation = 0
 sprite.animate("forward")
 pygame.display.set_icon(pygame.image.load("icon.png"))
 
-wheel = Wheel(screen, "icon.png")  # TODO: get wheel images
+wheel = Wheel(screen, "chooser.png")
 
 t0 = time.time()
 
