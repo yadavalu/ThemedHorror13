@@ -1,3 +1,9 @@
+# Conditions for tilemaps:
+# (0, 0) = 0
+# (11, 0) = 0
+# (Always!!)
+
+
 import pygame
 from background import get_background
 from pprint import pprint
@@ -40,6 +46,11 @@ while running:
         if event.type == pygame.MOUSEBUTTONUP and drag:
             x, y = pygame.mouse.get_pos()
             print(x//64, y//64)
+            if x//64 - 1 == 0 and y//64 - 1 == 0:
+                continue
+            if x//64 - 1 == 11 and y//64 - 1 == 0:
+                continue
+
             try:
                 if tilemap[x//64 - 1][y//64 - 1] == 1:
                     tilemap[x//64 - 1][y//64 - 1] = 0
