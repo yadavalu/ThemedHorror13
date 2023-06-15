@@ -56,7 +56,17 @@ class SpriteSheet:
                     return
 
         if x != self.x or y != self.y:
-            for i in range(3): self.particles.append([[self.x + self.data["scale"][0]/2, self.y + self.data["scale"][1]], [random.randint(0, 20) / 10 - 1, -2], random.randint(4, 6)])
+            vel = [0, 0]
+            if dir == 1:
+                vel = [-random.randint(0, 20) / 10, -1]
+            elif dir == 2:
+                vel = [random.randint(0, 20) / 10, -1]
+            elif dir == 3:
+                vel = [-1, -random.randint(0, 20) / 10]
+            elif dir == 4:
+                vel = [-1, random.randint(0, 20) / 10]
+
+            for i in range(3): self.particles.append([[self.x + self.data["scale"][0]/2, self.y + self.data["scale"][1]], vel, random.randint(4, 6)])
 
         self.x = x
         self.y = y
@@ -70,8 +80,6 @@ class SpriteSheet:
                     i.destroy = True
 
     def render(self):
-        self.screen.blit(pygame.transform.scale(self.render_img, self.data["scale"]), (self.x, self.y))
-
         to_remove = []
         for particle in self.particles:
             particle[0][0] += particle[1][0]
@@ -83,6 +91,9 @@ class SpriteSheet:
 
         for i in to_remove:
             self.particles.remove(i)
+
+        self.screen.blit(pygame.transform.scale(self.render_img, self.data["scale"]), (self.x, self.y))
+
 
     def handle_event(self):
         pass
