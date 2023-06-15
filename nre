@@ -1,4 +1,0 @@
-def collect(self, coins):
-        for i in coins:
-            if self.x // 64 - 1 <= i.pos[0] / 64 <= self.x // 64 + 1 and self.y // 64 - 1 <= i.pos[1] / 64 <= self.y // 64 + 1:
-                i.destroy = True
