@@ -75,7 +75,7 @@ while running:
             if event.key == pygame.K_SPACE:
                 wheel.turn()
 
-    sprite.move(f, r, l, a, -20, -10)
+    sprite.move(f, r, l, a, 20, 10)
 
     screen.fill((0, 0, 0))
 

@@ -40,7 +40,7 @@ class SpriteSheet:
 
         for i in self.tile_rects:
             if i.x != -1:
-                if i.colliderect(pygame.Rect(x - xoffset/2, y - yoffset/2, self.data["scale"][0] + xoffset, self.data["scale"][1] + yoffset)):
+                if i.colliderect(pygame.Rect(x + xoffset, y + yoffset, self.data["scale"][0] - 2 * xoffset, self.data["scale"][1] - yoffset)):
                     if not self.collision:
                         self.collision = True
                     return
@@ -51,6 +51,7 @@ class SpriteSheet:
 
     def render(self):
         #self.screen.blit(self.render_img, (self.x, self.y))
+        #pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(self.x + 20, self.y + 10, self.data["scale"][0] - 20 * 2, self.data["scale"][1] - 10))
         self.screen.blit(pygame.transform.scale(self.render_img, self.data["scale"]), (self.x, self.y))
 
     def handle_event(self):
