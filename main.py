@@ -66,7 +66,7 @@ t0_2 = time.time()
 game_over = False
 
 while running:
-    clock.tick(60)
+    dt = clock.tick(60)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -113,10 +113,10 @@ while running:
         game_over = True
 
     if not game_over:
-        sprite.move(dir)
+        sprite.move(dir, dt)
 
         while True:
-            ghost.move(dir2)
+            ghost.move(dir2, dt)
             if not ghost.collision:
                 break
             else:
