@@ -67,6 +67,13 @@ t0_2 = time.time()
 
 game_over = False
 
+from unlucky import Unlucky
+u = Unlucky(screen)
+
+while u.running:
+    u.handle()
+    u.render()
+
 while running:
     dt = clock.tick(60)
 
@@ -87,7 +94,7 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 dir = 0
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_r:
                 wheel.turn()
 
     t1 = time.time()
