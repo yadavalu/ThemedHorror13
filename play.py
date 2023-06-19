@@ -9,6 +9,7 @@ from spritesheet import SpriteSheet
 from wheel import Wheel
 from coin import Coin
 from unlucky import Unlucky
+from widgets import Button, Label
 
 pygame.init()
 (w, h) = (1000, 900)
@@ -60,9 +61,13 @@ sprite.animate("forward")
 pygame.display.set_icon(pygame.image.load("icon.png"))
 
 wheel = Wheel(screen, "chooser.png")
-coin = []
+coins = []
 for i in range(5):
-    coin.append(Coin(screen, tilemap, "coin.png"))
+    coins.append(Coin(screen, tilemap, "coin.png"))
+coins_collected = 0
+
+main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Menu", (183, 183, 183), 50, 300, 600, 50)
+collected_label = Label(screen, font, "Coins Collected: " + str(coins_collected), (255, 0, 0), 0, 800, 10, 10)
 
 t0 = time.time()
 t0_1 = [time.time(), time.time(), time.time()]
@@ -72,9 +77,19 @@ game_over = False
 
 while running:
     dt = clock.tick(60)
+    pos = pygame.mouse.get_pos()
+
+    coins_collected = 0
+    for coin in coins:
+        if not coin.destroy:
+            coins_collected += 1
+    collected_label.text = "Coins Collected: " + str(5 - coins_collected)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            running = False
+            exit(0)
+        if main_menu_button.handle_event(event, pos):
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
@@ -86,7 +101,7 @@ while running:
             if event.key == pygame.K_DOWN:
                 dir = 3
             if event.key == pygame.K_x:
-                sprite.collect(coin)
+                sprite.collect(coins)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 dir = 0
@@ -183,8 +198,11 @@ while running:
     sprite.render()
     wheel.render()
 
-    for i in coin:
-        i.render()
+    main_menu_button.render()
+    collected_label.render()
+
+    for coin in coins:
+        coin.render()
 
     if game_over:
         size = font.size("Game over!!!")
@@ -192,5 +210,3 @@ while running:
                     (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
 
     pygame.display.update()
-
-pygame.quit()
