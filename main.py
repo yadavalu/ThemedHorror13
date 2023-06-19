@@ -33,7 +33,6 @@ ghost_data = {
     "offset": [10, 5]
 }
 
-
 sprite_data = {
     "forward": [8, 0],
     "right": [8, 1],
@@ -44,13 +43,14 @@ sprite_data = {
     "offset": [20, 10]
 }
 
-
 clock = pygame.Clock()
-ghost = SpriteSheet(screen, 896, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200))
+# TODO: more items, wheel of misfortune/unlucky number, bgm, sfx, better following algorithm...
+ghosts = [SpriteSheet(screen, 896, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)),
+          SpriteSheet(screen, 896, 768, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200))]
 sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
 dir = 0
-dir2 = 1
-rand_legal = [1, 2, 3, 4]
+dir_ghosts = [1, 1]
+rand_legal = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
 no_animation = 0
 
 sprite.animate("forward")
@@ -62,7 +62,7 @@ for i in range(5):
     coin.append(Coin(screen, tilemap, "coin.png"))
 
 t0 = time.time()
-t0_1 = time.time()
+t0_1 = [time.time(), time.time(), time.time()]
 t0_2 = time.time()
 
 game_over = False
@@ -92,45 +92,48 @@ while running:
 
     t1 = time.time()
 
-    if t1 - t0_1 > 1:
-        # Low weighted directions
-        rand_legal = [1, 2, 3, 4]
-        # High weighted directions
-        if ghost.x - sprite.x > 0:
-            rand_legal.append(2)
-            rand_legal.append(2)
-            rand_legal.append(2)
-        elif ghost.x - sprite.x < 0:
-            rand_legal.append(1)
-            rand_legal.append(1)
-            rand_legal.append(1)
+    for i in range(len(ghosts)):
+        if t1 - t0_1[i] > 1:
+            # Low weighted directions
+            rand_legal[i] = [1, 2, 3, 4]
+            # High weighted directions
+            if ghosts[i].x - sprite.x > 0:
+                rand_legal[i].append(2)
+                rand_legal[i].append(2)
+                rand_legal[i].append(2)
+            elif ghosts[i].x - sprite.x < 0:
+                rand_legal[i].append(1)
+                rand_legal[i].append(1)
+                rand_legal[i].append(1)
 
-        if ghost.y - sprite.y > 0:
-            rand_legal.append(4)
-            rand_legal.append(4)
-            rand_legal.append(4)
-        elif ghost.y - sprite.y < 0:
-            rand_legal.append(3)
-            rand_legal.append(3)
-            rand_legal.append(3)
+            if ghosts[i].y - sprite.y > 0:
+                rand_legal[i].append(4)
+                rand_legal[i].append(4)
+                rand_legal[i].append(4)
+            elif ghosts[i].y - sprite.y < 0:
+                rand_legal[i].append(3)
+                rand_legal[i].append(3)
+                rand_legal[i].append(3)
 
-        try:
-            dir2 = random.choice(rand_legal)
-        except IndexError:
+            try:
+                dir_ghosts[i] = random.choice(rand_legal[i])
+            except IndexError:
+                game_over = True
+
+            t0_1[i] = time.time()
+
+    for i in range(len(ghosts)):
+        if ghosts[i].rect.colliderect(sprite.rect):
+            ghosts[i].x = sprite.x
+            ghosts[i].y = sprite.y
             game_over = True
-
-        t0_1 = time.time()
-
-    if ghost.rect.colliderect(sprite.rect):
-        ghost.x = sprite.x
-        ghost.y = sprite.y
-        game_over = True
 
     if not game_over:
         sprite.move(dir, dt)
-        ghost.move(dir2, dt)
-        if ghost.collision:
-            t0_1 = 0
+        for i in range(len(ghosts)):
+            ghosts[i].move(dir_ghosts[i], dt)
+            if ghosts[i].collision:
+                t0_1[i] = 0
 
     screen.fill((0, 0, 0))
 
@@ -151,36 +154,39 @@ while running:
         else:
             sprite.single(0, 0)
 
-        if dir2 == 3:
-            ghost.animate("forward")
-        elif dir2 == 1:
-            ghost.animate("right")
-        elif dir2 == 2:
-            ghost.animate("left")
-        elif dir2 == 4:
-            ghost.animate("away")
-        else:
-            ghost.single(0, 0)
+        for i in range(len(ghosts)):
+            if dir_ghosts[i] == 3:
+                ghosts[i].animate("forward")
+            elif dir_ghosts[i] == 1:
+                ghosts[i].animate("right")
+            elif dir_ghosts[i] == 2:
+                ghosts[i].animate("left")
+            elif dir_ghosts[i] == 4:
+                ghosts[i].animate("away")
+            else:
+                ghosts[i].single(0, 0)
 
         t0 = time.time()
 
     if not game_over:
         t1 = time.time()
         if 3 < t1 - t0_2 <= 4:
-            ghost.render()
+            for i in range(len(ghosts)): ghosts[i].render()
         elif t1 - t0_2 > 4:
             t0_2 = time.time()
     else:
-        ghost.render()
+        for i in range(len(ghosts)): ghosts[i].render()
 
     sprite.render()
     wheel.render()
+
     for i in coin:
         i.render()
 
     if game_over:
         size = font.size("Game over!!!")
-        screen.blit(font.render("Game over!!!", True, (100, 0, 0)), (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
+        screen.blit(font.render("Game over!!!", True, (100, 0, 0)),
+                    (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
 
     pygame.display.update()
 
