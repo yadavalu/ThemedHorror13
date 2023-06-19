@@ -1,6 +1,7 @@
 import pygame
 import time
 import random
+import sfx
 
 import tilemaps
 from background import get_background
@@ -146,12 +147,16 @@ while running:
     if t1 - t0 > 0.07:
         if dir == 3:
             sprite.animate("forward")
+            sfx.play(sfx.walk)
         elif dir == 2:
             sprite.animate("right")
+            sfx.play(sfx.walk)
         elif dir == 1:
             sprite.animate("left")
+            sfx.play(sfx.walk)
         elif dir == 4:
             sprite.animate("away")
+            sfx.play(sfx.walk)
         else:
             sprite.single(0, 0)
 
