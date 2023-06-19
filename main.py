@@ -7,6 +7,7 @@ from background import get_background
 from spritesheet import SpriteSheet
 from wheel import Wheel
 from coin import Coin
+from unlucky import Unlucky
 
 pygame.init()
 (w, h) = (1000, 900)
@@ -67,12 +68,12 @@ t0_2 = time.time()
 
 game_over = False
 
-from unlucky import Unlucky
 u = Unlucky(screen)
 
 while u.running:
     u.handle()
     u.render()
+del u
 
 while running:
     dt = clock.tick(60)
