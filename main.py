@@ -68,13 +68,6 @@ t0_2 = time.time()
 
 game_over = False
 
-u = Unlucky(screen)
-
-while u.running:
-    u.handle()
-    u.render()
-del u
-
 while running:
     dt = clock.tick(60)
 
