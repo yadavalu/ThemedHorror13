@@ -15,6 +15,7 @@ pygame.init()
 screen = pygame.display.set_mode((w, h))
 pygame.display.set_caption("Horror")
 font = pygame.font.SysFont(None, 75)
+sfx.bgm()
 
 running = True
 
@@ -147,16 +148,12 @@ while running:
     if t1 - t0 > 0.07:
         if dir == 3:
             sprite.animate("forward")
-            sfx.play(sfx.walk)
         elif dir == 2:
             sprite.animate("right")
-            sfx.play(sfx.walk)
         elif dir == 1:
             sprite.animate("left")
-            sfx.play(sfx.walk)
         elif dir == 4:
             sprite.animate("away")
-            sfx.play(sfx.walk)
         else:
             sprite.single(0, 0)
 
