@@ -132,7 +132,7 @@ while running:
             game_over = True
 
     if not game_over:
-        sprite.move(dir, dt)
+        sprite.move(dir, dt, sound=True)
         for i in range(len(ghosts)):
             ghosts[i].move(dir_ghosts[i], dt)
             if ghosts[i].collision:

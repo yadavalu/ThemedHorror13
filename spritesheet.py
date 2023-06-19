@@ -1,5 +1,8 @@
 import pygame
 import random
+import time
+
+import sfx
 
 class SpriteSheet:
     def __init__(self, screen, x, y, clock: pygame.time.Clock, img, data, tile_rects, part_colour):
@@ -25,11 +28,13 @@ class SpriteSheet:
         self.part_colour = part_colour
         self.curr_action = None
 
+        self.t0 = time.time()
+
     def get_size(self, x, y, width, height):
         self.render_img = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
         self.render_img.blit(self.img, (0, 0), (x, y, width, height))
 
-    def move(self, dir, dt):
+    def move(self, dir, dt, sound=False):
         x = self.x
         y = self.y
 
@@ -59,6 +64,13 @@ class SpriteSheet:
 
         if self.collision:
             return
+
+        if sound:
+            if dir != 0:
+                self.t1 = time.time()
+                if self.t1 - self.t0 > 0.2:
+                    sfx.play(sfx.walk)
+                    self.t0 = time.time()
 
         if x != self.x or y != self.y:
             vel = [0, 0]
