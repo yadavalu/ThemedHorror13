@@ -1,5 +1,6 @@
 import pygame
 from widgets import Button
+import importlib
 
 pygame.init()
 (w, h) = (1000, 900)
@@ -8,16 +9,21 @@ pygame.display.set_caption("Horror")
 clock = pygame.Clock()
 
 font = pygame.font.SysFont(None, 30)
+b = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Play", (183, 183, 183), 50, 200, 600, 50)
+o = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Options", (183, 183, 183), 50, 300, 600, 50)
+q = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Quit", (183, 183, 183), 50, 400, 600, 50)
+reimport = False
 
-while True:        
-    b = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Play", (183, 183, 183), 50, 200, 600, 50)
-    o = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Options", (183, 183, 183), 50, 300, 600, 50)
-    q = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Quit", (183, 183, 183), 50, 400, 600, 50)
+while True:
     dt = clock.tick(60)
     pos = pygame.mouse.get_pos()
     for event in pygame.event.get():
         if b.handle_event(event, pos):
-            import play
+            if not reimport:
+                import play
+                reimport = True
+            else: 
+                play.play()
         if q.handle_event(event, pos):
             pygame.quit()
             exit(0)
