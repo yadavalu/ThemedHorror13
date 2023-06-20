@@ -50,40 +50,38 @@ t0 = time.time()
 t0_1 = [time.time(), time.time(), time.time()]
 t0_2 = time.time()
 
+ghost_data = {
+    "forward": [6, 0],
+    "left": [6, 1],
+    "right": [6, 2],
+    "away": [6, 3],
+    "dimensions": [48, 48],
+    "scale": [64, 64],
+    "offset": [10, 5]
+}
+
+sprite_data = {
+    "forward": [8, 0],
+    "right": [8, 1],
+    "left": [8, 2],
+    "away": [8, 3],
+    "dimensions": [77, 77],
+    "scale": [64, 64],
+    "offset": [20, 10]
+}
+
+ghosts = [SpriteSheet(screen, 896, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)),
+        SpriteSheet(screen, 896, 768, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200))]
+sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
+sprite.animate("forward")
+
 game_over = False
 
 def play():
-
     running = True
     
     global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, sprite_data, ghost_data
 
-    ghost_data = {
-        "forward": [6, 0],
-        "left": [6, 1],
-        "right": [6, 2],
-        "away": [6, 3],
-        "dimensions": [48, 48],
-        "scale": [64, 64],
-        "offset": [10, 5]
-    }
-
-    sprite_data = {
-        "forward": [8, 0],
-        "right": [8, 1],
-        "left": [8, 2],
-        "away": [8, 3],
-        "dimensions": [77, 77],
-        "scale": [64, 64],
-        "offset": [20, 10]
-    }
-
-    ghosts = [SpriteSheet(screen, 896, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)),
-            SpriteSheet(screen, 896, 768, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200))]
-    sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
-    sprite.animate("forward")
-
-    
     while running:
         dt = clock.tick(60)
         pos = pygame.mouse.get_pos()
