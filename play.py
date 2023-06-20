@@ -80,7 +80,7 @@ game_over = False
 def play():
     running = True
     
-    global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, sprite_data, ghost_data
+    global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock
 
     while running:
         dt = clock.tick(60)
@@ -217,4 +217,3 @@ def play():
                         (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
 
         pygame.display.update()
-play()

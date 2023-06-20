@@ -1,6 +1,6 @@
 import pygame
 from widgets import Button
-import importlib
+import play
 
 pygame.init()
 (w, h) = (1000, 900)
@@ -19,11 +19,7 @@ while True:
     pos = pygame.mouse.get_pos()
     for event in pygame.event.get():
         if b.handle_event(event, pos):
-            if not reimport:
-                import play
-                reimport = True
-            else: 
-                play.play()
+            play.play()
         if q.handle_event(event, pos):
             pygame.quit()
             exit(0)
