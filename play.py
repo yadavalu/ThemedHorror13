@@ -21,8 +21,13 @@ sfx.bgm()
 
 # TODO: more items, wheel of misfortune/unlucky number, bgm, sfx, better following algorithm...
 
+t = list()
+for i in range(10):
+    t.append(i)
+random.shuffle(t)
+
 tile_no = 0
-background, bg_image = get_background(tilemaps.tilemaps[tile_no])
+background, bg_image = get_background(tilemaps.tilemaps[t[tile_no]])
 rects = []
 for tile in background:
     rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
@@ -40,7 +45,7 @@ pygame.display.set_icon(pygame.image.load("icon.png"))
 wheel = Wheel(screen, "chooser.png")
 coins = []
 for i in range(5):
-    coins.append(Coin(screen, tilemaps.tilemaps[tile_no], "coin.png"))
+    coins.append(Coin(screen, tilemaps.tilemaps[t[tile_no]], "coin.png"))
     coins_left = 5
 
 main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font2, "Menu", (183, 183, 183), 50, 0, 100, 50)
@@ -91,13 +96,13 @@ def play():
         dt = clock.tick(60)
         pos = pygame.mouse.get_pos()
 
-        coins_left = 5
+        coins_left = (2*tile_no) + 5
         for coin in coins:
             if coin.destroy:
                 coins_left -= 1
         if coins_left == 0:
             tile_no += 1
-            background, bg_image = get_background(tilemaps.tilemaps[tile_no])
+            background, bg_image = get_background(tilemaps.tilemaps[t[tile_no]])
             ghost_no += 1 # TODO: increase # of ghosts
             rects = []
             for tile in background:
@@ -112,9 +117,9 @@ def play():
                 rand_legal.append(([1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]))
             sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
             for i in range(5):
-                coins.append(Coin(screen, tilemaps.tilemaps[tile_no], "coin.png"))
+                coins.append(Coin(screen, tilemaps.tilemaps[t[tile_no]], "coin.png"))
                 coins[i].destroy = False
-        collected_label.text = "Coins Collected: " + str(5 - coins_left)
+        collected_label.text = "Coins Collected: " + str((2*tile_no) + 5 - coins_left)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -144,7 +149,6 @@ def play():
         for i in range(len(ghosts)):
             if t1 - t0_1[i] > 1:
                 # Low weighted directions
-                print(rand_legal)
                 rand_legal[i] = [1, 2, 3, 4]
                 # High weighted directions
                 if ghosts[i].x - sprite.x > 0:
