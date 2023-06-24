@@ -15,14 +15,14 @@ pygame.init()
 (w, h) = (1000, 900)
 screen = pygame.display.set_mode((w, h))
 pygame.display.set_caption("Horror")
-font = pygame.font.SysFont(None, 20)
+font = pygame.font.SysFont(None, 72)
+font2 = pygame.font.SysFont(None, 20)
 sfx.bgm()
 
 # TODO: more items, wheel of misfortune/unlucky number, bgm, sfx, better following algorithm...
 
-tilemap = random.choice(tilemaps.tilemaps)
-background, bg_image = get_background(tilemap)
-
+tile_no = 0
+background, bg_image = get_background(tilemaps.tilemaps[tile_no])
 rects = []
 for tile in background:
     rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
@@ -40,57 +40,81 @@ pygame.display.set_icon(pygame.image.load("icon.png"))
 wheel = Wheel(screen, "chooser.png")
 coins = []
 for i in range(5):
-    coins.append(Coin(screen, tilemap, "coin.png"))
-coins_collected = 0
+    coins.append(Coin(screen, tilemaps.tilemaps[tile_no], "coin.png"))
+    coins_left = 5
 
-main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Menu", (183, 183, 183), 50, 0, 100, 50)
-collected_label = Label(screen, font, "Coins Collected: " + str(coins_collected), (255, 0, 0), 100, 850, 100, 10)
+main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font2, "Menu", (183, 183, 183), 50, 0, 100, 50)
+collected_label = Label(screen, font2, "Coins Collected: " + str(5 - coins_left), (255, 0, 0), 100, 850, 100, 10)
 
 t0 = time.time()
-t0_1 = [time.time(), time.time(), time.time()]
+t0_1 = [time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time()]
 t0_2 = time.time()
-
-ghost_data = {
-    "forward": [6, 0],
-    "left": [6, 1],
-    "right": [6, 2],
-    "away": [6, 3],
-    "dimensions": [48, 48],
-    "scale": [64, 64],
-    "offset": [10, 5]
-}
-
-sprite_data = {
-    "forward": [8, 0],
-    "right": [8, 1],
-    "left": [8, 2],
-    "away": [8, 3],
-    "dimensions": [77, 77],
-    "scale": [64, 64],
-    "offset": [20, 10]
-}
-
-ghosts = [SpriteSheet(screen, 896, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)),
-        SpriteSheet(screen, 896, 768, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200))]
-sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
-sprite.animate("forward")
 
 game_over = False
 
 def play():
+    global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, tile_no, bg_image, background, coins_left
+
     running = True
-    
-    global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock
+
+    rects = []
+    for tile in background:
+        rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
+
+    ghost_data = {
+        "forward": [6, 0],
+        "left": [6, 1],
+        "right": [6, 2],
+        "away": [6, 3],
+        "dimensions": [48, 48],
+        "scale": [64, 64],
+        "offset": [10, 5]
+    }
+
+    sprite_data = {
+        "forward": [8, 0],
+        "right": [8, 1],
+        "left": [8, 2],
+        "away": [8, 3],
+        "dimensions": [77, 77],
+        "scale": [64, 64],
+        "offset": [20, 10]
+    }
+    ghost_no = 2
+    ghosts = list()
+    for i in range(ghost_no):
+        ghosts.append(SpriteSheet(screen, 700 + 50*i, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
+    sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
+    sprite.animate("forward")
 
     while running:
         dt = clock.tick(60)
         pos = pygame.mouse.get_pos()
 
-        coins_collected = 0
+        coins_left = 5
         for coin in coins:
-            if not coin.destroy:
-                coins_collected += 1
-        collected_label.text = "Coins Collected: " + str(5 - coins_collected)
+            if coin.destroy:
+                coins_left -= 1
+        if coins_left == 0:
+            tile_no += 1
+            background, bg_image = get_background(tilemaps.tilemaps[tile_no])
+            ghost_no += 1 # TODO: increase # of ghosts
+            rects = []
+            for tile in background:
+                rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
+            ghosts = []
+            sprite = []
+            dir_ghosts = []
+            rand_legal = []
+            for i in range(ghost_no):
+                ghosts.append(SpriteSheet(screen, 800 + 12*i, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
+                dir_ghosts.append(1)
+                rand_legal.append([1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4])
+            sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
+            for i in range(5):
+                coins.append(Coin(screen, tilemaps.tilemaps[tile_no], "coin.png"))
+                coins[i].destroy = False
+        collected_label.text = "Coins Collected: " + str(5 - coins_left)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -120,6 +144,7 @@ def play():
         for i in range(len(ghosts)):
             if t1 - t0_1[i] > 1:
                 # Low weighted directions
+                print(rand_legal)
                 rand_legal[i] = [1, 2, 3, 4]
                 # High weighted directions
                 if ghosts[i].x - sprite.x > 0:
@@ -212,7 +237,7 @@ def play():
             coin.render()
 
         if game_over:
-            size = font.size("Game over!!!")
+            size = font.size("Game Over!!!")
             screen.blit(font.render("Game over!!!", True, (100, 0, 0)),
                         (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
 
