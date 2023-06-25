@@ -88,7 +88,12 @@ def play():
     ghost_no = 2
     ghosts = list()
     for i in range(ghost_no):
-        ghosts.append(SpriteSheet(screen, 700 + 50*i, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
+        a = random.randint(1, 15)
+        b = random.randint(1, 13)
+        while tilemaps.tilemaps[t[tile_no]][a - 1][b - 1] != 0 and (a > 7 or b > 7):
+            a = random.randint(1, 15)
+            b = random.randint(1, 13)
+        ghosts.append(SpriteSheet(screen, a*64, b*64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
     sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
     sprite.animate("forward")
 
@@ -112,7 +117,12 @@ def play():
             dir_ghosts = []
             rand_legal = []
             for i in range(ghost_no):
-                ghosts.append(SpriteSheet(screen, 800 + 12*i, 64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
+                a = random.randint(1, 15)
+                b = random.randint(1, 13)
+                while tilemaps.tilemaps[t[tile_no]][a - 1][b - 1] != 0 and (a > 7 or b > 7):
+                    a = random.randint(1, 15)
+                    b = random.randint(1, 13)
+                ghosts.append(SpriteSheet(screen, a*64, b*64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
                 dir_ghosts.append(1)
                 rand_legal.append(([1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]))
             sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
