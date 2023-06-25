@@ -1,5 +1,5 @@
 import pygame
-from widgets import Button
+from widgets import Button, Label
 import play
 import instructions
 import importlib
@@ -11,12 +11,12 @@ pygame.display.set_caption("Horror")
 clock = pygame.Clock()
 
 font = pygame.font.SysFont(None, 30)
-b = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Play", (183, 183, 183), 50, 200, 600, 50)
-i = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Instructions", (183, 183, 183), 50, 300, 600, 50)
-o = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Options", (183, 183, 183), 50, 400, 600, 50)
-q = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Quit", (183, 183, 183), 50, 500, 600, 50)
-r = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Replay", (183, 183, 183), 50, 600, 600, 50)
-reimport = False
+l = Label(screen,  pygame.font.SysFont(None, 100), "ThemedHorror13", (200, 100, 100), 450, 150, 100, 50)
+b = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Play", (183, 183, 183), 200, 300, 600, 50)
+i = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Instructions", (183, 183, 183), 200, 400, 600, 50)
+o = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Options", (183, 183, 183), 200, 500, 600, 50)
+q = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Quit", (183, 183, 183), 200, 600, 600, 50)
+r = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Replay", (183, 183, 183), 200, 700, 600, 50)
 
 while True:
     dt = clock.tick(60)
@@ -38,6 +38,7 @@ while True:
             pygame.quit()
             exit(0)
     screen.fill((36, 34, 30))
+    l.render()
     b.render()
     r.render()
     i.render()
