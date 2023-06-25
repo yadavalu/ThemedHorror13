@@ -56,8 +56,30 @@ t0_2 = time.time()
 
 game_over = False
 
+ghost_data = {
+    "forward": [6, 0],
+    "left": [6, 1],
+    "right": [6, 2],
+    "away": [6, 3],
+    "dimensions": [48, 48],
+    "scale": [64, 64],
+    "offset": [10, 5]
+}
+
+sprite_data = {
+    "forward": [8, 0],
+    "right": [8, 1],
+    "left": [8, 2],
+    "away": [8, 3],
+    "dimensions": [77, 77],
+    "scale": [64, 64],
+    "offset": [20, 10]
+}
+sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
+sprite.animate("forward")
+
 def play():
-    global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, tile_no, bg_image, background, coins_left
+    global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, tile_no, bg_image, background, coins_left, ghost_data, sprite_data, sprite
 
     sfx.bgm()
     sfx.play(sfx.level)
@@ -68,37 +90,16 @@ def play():
     for tile in background:
         rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
 
-    ghost_data = {
-        "forward": [6, 0],
-        "left": [6, 1],
-        "right": [6, 2],
-        "away": [6, 3],
-        "dimensions": [48, 48],
-        "scale": [64, 64],
-        "offset": [10, 5]
-    }
-
-    sprite_data = {
-        "forward": [8, 0],
-        "right": [8, 1],
-        "left": [8, 2],
-        "away": [8, 3],
-        "dimensions": [77, 77],
-        "scale": [64, 64],
-        "offset": [20, 10]
-    }
     ghost_no = 2
     ghosts = list()
     for i in range(ghost_no):
         a = random.randint(1, 15)
         b = random.randint(1, 13)
-        while tilemaps.tilemaps[t[tile_no]][a - 1][b - 1] != 0 and (a > 7 or b > 7):
+        while tilemaps.tilemaps[t[tile_no]][a - 1][b - 1] != 0 and (a > 10 or b > 10) and a != sprite.x // 64 and b != sprite.x // 64:
             a = random.randint(1, 15)
             b = random.randint(1, 13)
         ghosts.append(SpriteSheet(screen, a*64, b*64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
-    sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
-    sprite.animate("forward")
-
+    
     while running:
         dt = clock.tick(60)
         pos = pygame.mouse.get_pos()
