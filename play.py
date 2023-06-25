@@ -13,10 +13,11 @@ from widgets import Button, Label
 
 pygame.init()
 (w, h) = (1000, 900)
-screen = pygame.display.set_mode((w, h))
+main_screen = pygame.display.set_mode((w, h))
+screen = pygame.Surface((w, h))
 pygame.display.set_caption("Horror")
 font = pygame.font.SysFont(None, 72)
-font2 = pygame.font.SysFont(None, 20)
+font2 = pygame.font.SysFont(None, 30)
 
 t = list()
 for i in range(10):
@@ -45,8 +46,8 @@ for i in range(5):
     coins.append(Coin(screen, tilemaps.tilemaps[t[tile_no]], "coin.png"))
     coins_left = 5
 
-main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font2, "Menu", (183, 183, 183), 50, 0, 100, 50)
-collected_label = Label(screen, font2, "Coins Collected: " + str(5 - coins_left), (255, 0, 0), 100, 850, 100, 10)
+main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font2, "Menu", (183, 183, 183), 5, 5, 100, 50)
+collected_label = Label(screen, font2, "Coins Collected: " + str(5 - coins_left), (255, 0, 0), 50, 860, 100, 10)
 
 t0 = time.time()
 t0_1 = [time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time()]
@@ -147,7 +148,7 @@ def play():
                     dir = 4
                 if event.key == pygame.K_DOWN:
                     dir = 3
-                if event.key == pygame.K_x:
+                if event.key == pygame.K_SPACE:
                     sprite.collect(coins)
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
@@ -261,4 +262,5 @@ def play():
             screen.blit(font.render("Game over!!!", True, (100, 0, 0)),
                         (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
 
+        main_screen.blit(screen, (random.randint(-1, 1), random.randint(-1, 1)))
         pygame.display.update()

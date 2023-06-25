@@ -7,7 +7,7 @@ def instructions():
     screen = pygame.display.set_mode((1000, 900))
     font = pygame.font.SysFont(None, 30)
 
-    main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Menu", (183, 183, 183), 50, 0, 100, 50)
+    main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Menu", (183, 183, 183), 5, 5, 100, 50)
     inst = [
         Label(screen, pygame.font.SysFont(None, 100), "Instructions", (200, 100, 100), 450, 200, 100, 50),
         Label(screen, font, "Escape from the ghosts and collect coins to go to the next level", (183, 183, 183), 450, 300, 100, 50),
@@ -15,7 +15,7 @@ def instructions():
         Label(screen, font, "left arrow key to move left", (183, 183, 183), 450, 450, 100, 50),
         Label(screen, font, "up arrow key to move up", (183, 183, 183), 450, 500, 100, 50),
         Label(screen, font, "down arrow key to move down", (183, 183, 183), 450, 550, 100, 50),
-        Label(screen, font, "'x' key to collect coins", (183, 183, 183), 450, 600, 100, 50),
+        Label(screen, font, "space key to collect coins", (183, 183, 183), 450, 600, 100, 50),
     ]
 
     while True:
