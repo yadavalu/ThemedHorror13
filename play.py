@@ -17,7 +17,6 @@ screen = pygame.display.set_mode((w, h))
 pygame.display.set_caption("Horror")
 font = pygame.font.SysFont(None, 72)
 font2 = pygame.font.SysFont(None, 20)
-sfx.bgm()
 
 # TODO: more items, wheel of misfortune/unlucky number, bgm, sfx, better following algorithm...
 
@@ -60,7 +59,10 @@ game_over = False
 def play():
     global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, tile_no, bg_image, background, coins_left
 
+    sfx.bgm()
+    sfx.play(sfx.level)
     running = True
+    gameover_played = 0
 
     rects = []
     for tile in background:
@@ -108,7 +110,8 @@ def play():
         if coins_left == 0:
             tile_no += 1
             background, bg_image = get_background(tilemaps.tilemaps[t[tile_no]])
-            ghost_no += 1 # TODO: increase # of ghosts
+            ghost_no += 1
+            sfx.play(sfx.level)
             rects = []
             for tile in background:
                 rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
@@ -251,6 +254,9 @@ def play():
             coin.render()
 
         if game_over:
+            if gameover_played < 5:
+                sfx.play(sfx.gameover)
+                gameover_played += 1
             size = font.size("Game Over!!!")
             screen.blit(font.render("Game over!!!", True, (100, 0, 0)),
                         (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))

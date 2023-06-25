@@ -2,9 +2,12 @@ import pygame
 
 pygame.mixer.init()
 
-# chess.com capture sfx
+# https://www.chess.com capture sfx
 walk = pygame.mixer.Sound("walk.mp3")
-
+# jsfxr
+collect = pygame.mixer.Sound("coin.wav")
+level = pygame.mixer.Sound("level.wav")
+gameover = pygame.mixer.Sound("gameover.wav")
 
 def bgm():
     # Conjuring 2 bgm https://www.youtube.com/watch?v=O9FNI5Kn9sI

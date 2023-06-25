@@ -92,9 +92,10 @@ class SpriteSheet:
         self.rect = pygame.Rect(self.x + self.data["offset"][0], self.y + self.data["offset"][1], self.data["scale"][0] - 2 * self.data["offset"][0], self.data["scale"][1] - self.data["offset"][1])
 
     def collect(self, coins):
-            for i in coins:
-                if self.x // 64 - 1 <= i.pos[0] / 64 <= self.x // 64 + 1 and self.y // 64 - 1 <= i.pos[1] / 64 <= self.y // 64 + 1:
-                    i.destroy = True
+        for i in coins:
+            if self.x // 64 - 1 <= i.pos[0] / 64 <= self.x // 64 + 1 and self.y // 64 - 1 <= i.pos[1] / 64 <= self.y // 64 + 1:
+                i.destroy = True
+                sfx.play(sfx.collect)
 
     def render(self):
         to_remove = []
