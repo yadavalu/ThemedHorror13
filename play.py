@@ -238,10 +238,12 @@ def play():
 
         if not game_over:
             t1 = time.time()
-            if 3 < t1 - t0_2 <= 4:
-                for i in range(len(ghosts)): ghosts[i].render()
+            if 1 < t1 - t0_2 <= 4:
+                pass
             elif t1 - t0_2 > 4:
                 t0_2 = time.time()
+            else:
+                for i in range(len(ghosts)): ghosts[i].render()
         else:
             for i in range(len(ghosts)): ghosts[i].render()
 
