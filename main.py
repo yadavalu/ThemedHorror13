@@ -1,8 +1,11 @@
 import pygame
+import importlib
+
+import options
 from widgets import Button, Label
 import play
 import instructions
-import importlib
+import sfx
 
 pygame.init()
 (w, h) = (1000, 900)
@@ -19,6 +22,8 @@ o = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Options", 
 q = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Quit", (183, 183, 183), 200, 600, 600, 50)
 r = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Replay", (183, 183, 183), 200, 700, 600, 50)
 
+sfx.bgm()
+
 while True:
     dt = clock.tick(60)
     pos = pygame.mouse.get_pos()
@@ -34,7 +39,7 @@ while True:
         if i.handle_event(event, pos):
             instructions.instructions()
         if o.handle_event(event, pos):
-            pass
+            options.options()
         if event.type == pygame.QUIT:
             pygame.quit()
             exit(0)

@@ -18,8 +18,6 @@ pygame.display.set_caption("Horror")
 font = pygame.font.SysFont(None, 72)
 font2 = pygame.font.SysFont(None, 20)
 
-# TODO: more items, wheel of misfortune/unlucky number, bgm, sfx, better following algorithm...
-
 t = list()
 for i in range(10):
     t.append(i)
@@ -81,7 +79,6 @@ sprite.animate("forward")
 def play():
     global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, tile_no, bg_image, background, coins_left, ghost_data, sprite_data, sprite
 
-    sfx.bgm()
     sfx.play(sfx.level)
     running = True
     gameover_played = 0
