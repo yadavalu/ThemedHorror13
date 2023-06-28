@@ -40,10 +40,6 @@ while True:
                 b.text = "Resume"
             elif ret == 100: 
                 l2.text = "Congrats!! You Won!!"
-            if r_play:
-                importlib.reload(play)
-            play.play()
-            r_play = True
         if q.handle_event(event, pos):
             pygame.quit()
             exit(0)
