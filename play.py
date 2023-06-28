@@ -245,6 +245,7 @@ def play():
 
             t0 = time.time()
 
+        ghosts_appear = False
         if not game_over:
             t1 = time.time()
             if 1 < t1 - t0_2 <= 4:
@@ -253,8 +254,10 @@ def play():
                 t0_2 = time.time()
             else:
                 for i in range(len(ghosts)): ghosts[i].render()
+                ghosts_appear = True
         else:
             for i in range(len(ghosts)): ghosts[i].render()
+            ghosts_appear = True
 
         sprite.render()
         wheel.render()
@@ -273,5 +276,8 @@ def play():
             screen.blit(font.render("Game over!!!", True, (100, 0, 0)),
                         (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
 
-        main_screen.blit(screen, (random.randint(-1, 1), random.randint(-1, 1)))
+        if ghosts_appear or game_over:
+            main_screen.blit(screen, (random.randint(-2, 2), random.randint(-2, 2)))
+        else:
+            main_screen.blit(screen, (0, 0))
         pygame.display.update()
