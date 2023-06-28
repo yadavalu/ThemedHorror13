@@ -53,6 +53,7 @@ for i in range(5):
 
 main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font2, "Menu", (183, 183, 183), 5, 5, 100, 50)
 collected_label = Label(screen, font2, "Coins Collected: " + str(5 - coins_left), (255, 0, 0), 50, 860, 100, 10)
+level_label = Label(screen, font2, "Level: " + str(tile_no+1), (255, 0, 0), 850, 860, 100, 10)
 
 t0 = time.time()
 t0_1 = [time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time(), time.time()]
@@ -113,6 +114,7 @@ def play():
                 coins_left -= 1
         if coins_left == 0:
             tile_no += 1
+            level_label.text = "Level: " + str(tile_no+1)
             try:
                 background, bg_image = get_background(tilemaps.tilemaps[t[tile_no]])
             except IndexError:
@@ -264,6 +266,7 @@ def play():
 
         main_menu_button.render()
         collected_label.render()
+        level_label.render()
 
         for coin in coins:
             coin.render()
