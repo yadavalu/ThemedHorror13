@@ -30,9 +30,17 @@ while True:
     for event in pygame.event.get():
         if r.handle_event(event, pos):
             importlib.reload(play)
-            play.play()
+            ret = play.play()
+            if ret == 1:
+                b.text = "Resume"
+            elif ret == 100: 
+                l2.text = "Congrats!! You Won!!"
         if b.handle_event(event, pos):
-            play.play()
+            ret = play.play()
+            if ret == 1:
+                b.text = "Resume"
+            elif ret == 100: 
+                l2.text = "Congrats!! You Won!!"
         if q.handle_event(event, pos):
             pygame.quit()
             exit(0)

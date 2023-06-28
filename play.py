@@ -107,7 +107,12 @@ def play():
                 coins_left -= 1
         if coins_left == 0:
             tile_no += 1
-            background, bg_image = get_background(tilemaps.tilemaps[t[tile_no]])
+            try:
+                background, bg_image = get_background(tilemaps.tilemaps[t[tile_no]])
+            except IndexError:
+                print("Congrats!! You finished the Game!!")
+                running = False
+                return 100
             ghost_no += 1
             sfx.play(sfx.level)
             rects = []
@@ -138,6 +143,7 @@ def play():
                 exit(0)
             if main_menu_button.handle_event(event, pos):
                 running = False
+                return 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     dir = 2
