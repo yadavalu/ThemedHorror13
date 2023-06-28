@@ -9,7 +9,7 @@ def options():
     screen = pygame.display.set_mode((1000, 900))
     font = pygame.font.SysFont(None, 30)
 
-    main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Menu", (183, 183, 183), 50, 0, 100, 50)
+    main_menu_button = Button(screen, (180, 20, 10), (180, 80, 10), (10, 75, 20), font, "Menu", (183, 183, 183), 5, 5, 100, 50)
     opts_l = [
         Label(screen, pygame.font.SysFont(None, 100), "Options", (200, 100, 100), 450, 200, 100, 50),
         Label(screen, font, "Background Music: ", (183, 183, 183), 450, 300, 100, 50),
