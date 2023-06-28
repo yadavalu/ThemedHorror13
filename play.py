@@ -20,7 +20,7 @@ font = pygame.font.SysFont(None, 72)
 font2 = pygame.font.SysFont(None, 30)
 
 t = list()
-for i in range(10):
+for i in range(13):
     t.append(i)
 random.shuffle(t)
 
