@@ -11,7 +11,13 @@ pygame.init()
 (w, h) = (1000, 900)
 screen = pygame.display.set_mode((w, h))
 pygame.display.set_caption("Horror")
-clock = pygame.Clock()
+
+try:
+    # pygame-ce
+    clock = pygame.Clock()
+except AttributeError:
+    # pygame
+    clock = pygame.time.Clock()
 
 font = pygame.font.SysFont(None, 30)
 l = Label(screen,  pygame.font.SysFont(None, 100), "PacGhost", (200, 100, 100), 450, 150, 100, 50)

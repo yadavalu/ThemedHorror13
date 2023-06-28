@@ -30,7 +30,12 @@ rects = []
 for tile in background:
     rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
 
-clock = pygame.Clock()
+try:
+    # pygame-ce
+    clock = pygame.Clock()
+except AttributeError:
+    # pygame
+    clock = pygame.time.Clock()
 
 
 dir = 0
