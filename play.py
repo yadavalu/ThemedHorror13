@@ -26,6 +26,7 @@ random.shuffle(t)
 
 tile_no = 0
 background, bg_image = get_background(tilemaps.tilemaps[t[tile_no]])
+
 rects = []
 for tile in background:
     rects.append(pygame.Rect(*tile, *bg_image.get_rect()[2:]))
@@ -60,6 +61,7 @@ t0_1 = [time.time(), time.time(), time.time(), time.time(), time.time(), time.ti
 t0_2 = time.time()
 
 game_over = False
+player_won = False
 
 ghost_data = {
     "forward": [6, 0],
@@ -80,11 +82,11 @@ sprite_data = {
     "scale": [64, 64],
     "offset": [20, 10]
 }
-sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
+sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50), vel=3)
 sprite.animate("forward")
 
 def play():
-    global game_over, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, tile_no, bg_image, background, coins_left, ghost_data, sprite_data, sprite
+    global game_over, player_won, t0, t0_1, t0_2, dir, dir_ghosts, rand_legal, no_animation, main_menu_button, collected_label, wheel, coin, coins, clock, bg_image, background, coins_left, ghost_data, sprite_data, sprite, t, tile_no
 
     sfx.play(sfx.level)
     running = True
@@ -97,9 +99,9 @@ def play():
     ghost_no = 2
     ghosts = list()
     for i in range(ghost_no):
-        a = random.randint(1, 15)
-        b = random.randint(1, 13)
-        while tilemaps.tilemaps[t[tile_no]][a - 1][b - 1] != 0 and (a > 10 or b > 10) and a != sprite.x // 64 and b != sprite.x // 64:
+        a = random.randint(7, 15)
+        b = random.randint(7, 13)
+        while tilemaps.tilemaps[t[tile_no]][a - 1][b - 1] != 0 and a != sprite.x // 64 and b != sprite.x // 64:
             a = random.randint(1, 15)
             b = random.randint(1, 13)
         ghosts.append(SpriteSheet(screen, a*64, b*64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
@@ -118,9 +120,7 @@ def play():
             try:
                 background, bg_image = get_background(tilemaps.tilemaps[t[tile_no]])
             except IndexError:
-                print("Congrats!! You finished the Game!!")
-                running = False
-                return 100
+                player_won = True
             ghost_no += 1
             sfx.play(sfx.level)
             rects = []
@@ -151,6 +151,8 @@ def play():
                 exit(0)
             if main_menu_button.handle_event(event, pos):
                 running = False
+                if player_won:
+                    return 100
                 return 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -272,12 +274,17 @@ def play():
             coin.render()
 
         if game_over:
-            if gameover_played < 5:
-                sfx.play(sfx.gameover)
-                gameover_played += 1
-            size = font.size("Game Over!!!")
-            screen.blit(font.render("Game over!!!", True, (100, 0, 0)),
-                        (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
+            if player_won:
+                size = font.size("Congrats!! You Won!!")
+                screen.blit(font.render("Congrats!! You Won!!", True, (100, 0, 0)),
+                            (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
+            else:
+                if gameover_played < 5:
+                    sfx.play(sfx.gameover)
+                    gameover_played += 1
+                size = font.size("Game Over!!!")
+                screen.blit(font.render("Game over!!!", True, (100, 0, 0)),
+                            (random.randint(-1, 1) + (w / 2) - (size[0] / 2), random.randint(-1, 1) + (h / 2) - (size[1] / 2)))
 
         if ghosts_appear or game_over:
             main_screen.blit(screen, (random.randint(-2, 2), random.randint(-2, 2)))

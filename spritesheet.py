@@ -5,14 +5,14 @@ import time
 import sfx
 
 class SpriteSheet:
-    def __init__(self, screen, x, y, clock: pygame.time.Clock, img, data, tile_rects, part_colour):
+    def __init__(self, screen, x, y, clock: pygame.time.Clock, img, data, tile_rects, part_colour, vel=2):
         self.screen = screen
 
         self.tile_rects = tile_rects
 
         self.x = x
         self.y = y
-        self.vel = 2  # np.abs(int(5*np.sin(2*self.clock.get_time()) + 1))
+        self.vel = vel  # np.abs(int(5*np.sin(2*self.clock.get_time()) + 1))
         self.clock = clock
         self.img = img
         self.render_img = pygame.Surface((0, 0))
