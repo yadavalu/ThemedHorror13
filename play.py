@@ -140,7 +140,7 @@ def play():
                 ghosts.append(SpriteSheet(screen, a*64, b*64, clock, pygame.image.load("ghost.png"), ghost_data, rects, (200, 200, 200)))
                 dir_ghosts.append(1)
                 rand_legal.append(([1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]))
-            sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50))
+            sprite = SpriteSheet(screen, 64, 64, clock, pygame.image.load("sprite.png"), sprite_data, rects, (200, 50, 50), vel=3)
             for i in range(5):
                 coins.append(Coin(screen, tilemaps.tilemaps[t[tile_no]], "coin.png"))
                 coins[i].destroy = False
