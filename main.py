@@ -1,5 +1,6 @@
 import pygame
 import importlib
+import sys
 
 import options
 from widgets import Button, Label
@@ -48,14 +49,14 @@ while True:
                 l2.text = "Congrats!! You Won!!"
         if q.handle_event(event, pos):
             pygame.quit()
-            exit(0)
+            sys.exit(0)
         if i.handle_event(event, pos):
             instructions.instructions()
         if o.handle_event(event, pos):
             options.options()
         if event.type == pygame.QUIT:
             pygame.quit()
-            exit(0)
+            sys.exit(0)
 
 
     screen.fill((36, 34, 30))

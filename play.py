@@ -2,6 +2,7 @@ import pygame
 import time
 import random
 import sfx
+import sys
 
 import tilemaps
 from background import get_background
@@ -20,7 +21,7 @@ font = pygame.font.SysFont(None, 72)
 font2 = pygame.font.SysFont(None, 30)
 
 t = list()
-for i in range(13):
+for i in range(5):
     t.append(i)
 random.shuffle(t)
 
@@ -148,7 +149,7 @@ def play():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                exit(0)
+                sys.exit(0)
             if main_menu_button.handle_event(event, pos):
                 running = False
                 if player_won:

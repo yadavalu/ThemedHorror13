@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 class Unlucky:
     def __init__(self, screen):
@@ -15,7 +16,7 @@ class Unlucky:
         for self.event in pygame.event.get():
             if self.event.type == pygame.QUIT:
                 self.running = False
-                exit(0)
+                sys.exit(0)
             if self.event.type == pygame.KEYDOWN:
                 if self.event.key == pygame.K_SPACE:
                     self.running = False
